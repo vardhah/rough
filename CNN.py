@@ -36,7 +36,7 @@ class cnn():
      x=self.data[['action',"cos_theta_old","sin_theta_old","theta_dot_old"]].values
      y=self.data[["cos_theta","sin_theta","theta_dot"]].values
      for epo in range(epoch):
-       for i in range(int(data_len)):
+       for i in range(int(data_len/10)):
         rand_ids = np.random.randint(0, data_len, batch_size)
         #print("ids are ",rand_ids)
         self.optim.zero_grad()
@@ -68,6 +68,7 @@ class cnn():
      plt.show()
      
     def predict(self,data):
+         #print('Data is:',data)
          data[0]=(data[0]+2)/4
          data[1]=(data[1]+1)/2
          data[2]=(data[2]+1)/2

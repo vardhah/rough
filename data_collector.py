@@ -14,7 +14,6 @@ import numpy as np
 import torch 
 
 print(torch.__version__) 
-
 data_file='Pendulum-v0_dummy.csv'
 csv_file = os.path.join(data_file)
 openedfile=open(csv_file, 'w')
@@ -22,11 +21,11 @@ csv_writer = csv.writer(openedfile)
 csv_writer.writerow(['action','cos_theta_old','sin_theta_old','theta_dot_old','cos_theta','sin_theta','theta_dot'])
 env = gym.make('Pendulum-v0')
 obs_old=np.zeros(3,)
-
-for i in range(20):
- env.reset()
- print('iteration number:',i)   
- for _ in range(1000):
+ 
+for i in range(200):
+  env.reset()
+  print('iteration number:',i)   
+  for _ in range(1000):
     #env.render()
     #select a random action in range of permissible action (+2 to -2)
     action=env.action_space.sample()
