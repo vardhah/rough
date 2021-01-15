@@ -1,7 +1,7 @@
 
 % =========================================================================
 % OpenProp_v3.3.4
-% Last modified: 1/11/2021 @hotel Victor 
+% Last modified: 1/12/2021 @hotel Victor 
 % =========================================================================
 
 % ========================= Initiate OpenProp ======================
@@ -10,6 +10,9 @@
 %function OpenProp_edit
 function [sim_out] = OpenProp_edit
     %newPlots;
+    
+
+
 
     global Plots PlotPanels Toggle OnDesignValues ConversionValues systemToggle;
 
@@ -59,16 +62,16 @@ function [sim_out] = OpenProp_edit
 
     % --------------------------- Design parameters(fixed) ---------------------------
 
-    Z           = 4  ;      % number of blades
+    Z           = 3  ;      % number of blades
    
     ITER        = 40;       % number of iterations in analysis
     Rhv         = 0.1;   	% hub vortex radius / hub radius
 
-    TAU         = 1; %str2double(get(DuctValues(1),'string'));      % Thrust ratio
+    TAU         = 1; %str2double(get(DuctValues(1),'string'));          % Thrust ratio
     CDd         = 0.008; %str2double(get(DuctValues(2),'string'));      % Duct section drag coefficient
 
-    Dhub        = 0.8534 ;      % hub diameter [m]
-    rho         = 1026 	;    % Sea water density [kg/m^3]
+    %Dhub        = 0.8534 ;      % hub diameter [m]
+    rho         = 1000 	;    % fresh water density [kg/m^3]
     Mp          = 20 ;	    % number of vortex panels over the radius
     Np          = 20 ;	    % Number of points over the chord [ ]
 
@@ -117,26 +120,25 @@ function [sim_out] = OpenProp_edit
 
     % --------------------------- Design parameters(Sampled) -------------------------------
     % -------------------------------------------------------------------------------------- 
-    rpm_range = 50:200;                         % set rpm range(50-200 RPM)
-    N           = randsample(rpm_range,1)  ;     % propeller speed [RPM]
-    D           = 1+6*rand ;	                 % set propeller diameter [m] (1-7 METER)
-    
+    rpm_range = 50:6000;                         % set rpm range(50-6000 RPM)
+    N         = randsample(rpm_range,1)  ;       % propeller speed [RPM]
+    D         = 0.2+9.8*rand ;	                 % set propeller diameter [m] (0.2-10 METER)
+    Dhub      = 0.17*D ;                         % hub diameter(17% of propellor diameter) [m]
 
-    thrust_range = 100:50000;                              % set required thrust range(1,000-50,0000 N)
-    THRUST           = 10*randsample(thrust_range,1)  ;         % Thrust required [Newton]
+    thrust_range = 100:500000;                          % set required thrust range(1,000-50,0000 N)
+    THRUST       = randsample(thrust_range,1)  ;    % Thrust required [Newton]
     
     vel_range = 1:80;       % range of ship velocity(1:10),divided by 4 after sampling (in interval of 0.25)
     Vs          = randsample(vel_range,1)  ;      % ship velocity [m/s]
     Vs= double(Vs)/4.0;
-    Vs= 15*rand ;
+    Vs= 20*rand ;
 
     %  Blade 2D section properties ----------------------
-    s_f=0.25   %scale factor
-    cod1= s_f*rand ;cod2= s_f*rand ;cod3= s_f*rand ;cod4= s_f*rand ;cod5= s_f*rand ;cod6= s_f*rand ;cod7= s_f*rand ;
-    cod8= s_f*rand ;cod9= s_f*rand ; cod10=0.002; % MAX c/d is 1/4th of diameter	 
-
-    XCoD        = [cod1; cod2; cod3;cod4; cod5; cod6; cod7; cod8; cod9; cod10] ; % chord / diameter
-    
+     s_f=0.5 ;  %scale factor
+     cod1= s_f*rand ;cod2= s_f*rand ;cod3= s_f*rand ;cod4= s_f*rand ;cod5= s_f*rand ;cod6= s_f*rand ;cod7= s_f*rand ;
+     cod8= s_f*rand ;cod9= s_f*rand ; cod10=0.002; % MAX c/d is 1/4th of diameter	 
+     XCoD        = [cod1; cod2; cod3;cod4; cod5; cod6; cod7; cod8; cod9; cod10] ; % chord / diameter
+   
     XCLmax      = XCoD ; %If cord optimisation is off maximum lift coefficient (for chord optimization)
 
     %--------------------------------------------------------------------------------------------------
@@ -253,7 +255,7 @@ function [sim_out] = OpenProp_edit
     
 
     
-    sim_out=[pt.design.EFFY,N, D,THRUST,Vs,cod1,cod2,cod3,cod4,cod5,cod6,cod7,cod8,cod9,cod10 ];
+    sim_out=[Z,rho ,XCD(1),Xt0oD',N, D,Dhub,THRUST,Vs,cod1,cod2,cod3,cod4,cod5,cod6,cod7,cod8,cod9,cod10,pt.design.L,pt.design.Js, pt.design.KT,pt.design.KQ,pt.design.CT,pt.design.CQ,pt.design.CP,pt.design.P,pt.design.Q,pt.design.EFFY];
     %sim_out=[cod1,cod2,cod3,cod4,cod5,cod6,cod7,cod8,cod9,cod10 ]
     
     % ---------------------------------------------------------------------
