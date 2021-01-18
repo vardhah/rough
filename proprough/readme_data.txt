@@ -1,5 +1,5 @@
-sim_data_set2: Phase 1 need atleast 50,000 design points 
-     collected Data:  "num_blade,density,rpm,cod1,cod2,cod3,cod4,cod5,cod6,cod7,cod8,cod9,cod10,thrust_coeff,effy "
+sim_data_set1: In testing , Phase 1 need aprrox 8,387 design points 
+     collected Data:  "num_blade,density,rpm,dia, hub_dia,thrust,vel_ship, cod1,cod2,cod3,cod4,cod5,cod6,cod7,cod8,cod9,cod10,thrust_coeff,effy "
 
      % --------------------------- Design parameters(fixed) ---------------------------
     Z           = 3  ;      % number of blades
@@ -79,3 +79,7 @@ sim_data_set2: Phase 1 need atleast 50,000 design points
     XCoD        = [cod1; cod2; cod3;cod4; cod5; cod6; cod7; cod8; cod9; cod10] ; % chord / diameter
     
     XCLmax      = XCoD ; %If cord optimisation is off maximum lift coefficient (for chord optimization)
+
+
+
+sim_data1: Same design space but under collection ( hope to have large dataset) 
